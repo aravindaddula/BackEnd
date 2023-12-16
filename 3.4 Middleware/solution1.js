@@ -14,8 +14,11 @@ app.get("/", (req, res) => {
 res.sendFile(__dirname + "/public/index.html");
 });
 
-app.post("/submit", (req, res) => {
+//req.body and req.query both returns a document
+
+app.post("/userbands", (req, res) => {
   console.log(req.body);
+  res.send({message:"Your input recieved"})
 });
 
 app.listen(port, () => {

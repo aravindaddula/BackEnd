@@ -1,0 +1,178 @@
+const products = [  { name: "sports car" },  { name: "laptop" },  { name: "phone" }];
+let priceObj = products.map(prd =>({name:prd.name,price:100}))
+console.log(priceObj)
+-----------
+const products = [  { name: "sports car" },  { name: "laptop" },  { name: "phone" }];
+let priceObj = products.map(prd =>({...prd,price:100}))
+console.log(priceObj)
+
+----Spread operator
+1.Remove last property from object
+
+let prod = {product: 'laptop', price: 100, model: 'xp'}
+let {model, ...rmModel} = prod
+console.log(rmModel)
+
+------
+when you dont know what object you need to remove then use it.
+
+let attribute = 'name';
+const obj3 = {name: "sports car", model: 'xps', price: 100};
+const {[attribute]: attrib, ...rest} = obj3;
+console.log(rest);
+console.log(attrib);
+
+-----------
+input array
+const kvs = [  { key: 1, value: 10 },  { key: 2, value: 20 },  { key: 3, value: 30 },];
+i want output like this:
+[{ 1: 10 }, { 2: 20 }, { 3: 30 }]
+
+const kvs = [{ key: 1, value: 10 },  { key: 2, value: 20 },  { key: 3, value: 30 }];
+let newKvs = kvs.map(item=>({[item.key]:item.value}))
+console.log(newKvs)
+
+How Not to use way:1
+let newKvs = kvs.map(item=>([item.key]:item.value)
+way:2
+let newKvs = kvs.map(item=>({item.keyy:item.valuee}))
+
+if you try like this it will generate UnExpectedToken Error because you are trying to generate JSON object i.e going contain key:value
+pairs , so this is illegel syntax.
+you need to access the key in [obj.key] format. while generating JSON Object.
+
+
+------------ solve it
+output: {1: {key: 1, value: 10}, 2:  { key: 2, value: 20 }, 3: { key: 3, value: 30 }}
+
+const kvs = [  { key: 1, value: 10 },  { key: 2, value: 20 },  { key: 3, value: 30 }];
+let newKvs = kvs.reduce( (result,currVal) =>{
+    result[currVal.key]=currVal
+    //console.log(result)
+    //console.log( result[currVal.key])
+    return result
+},{})
+console.log(newKvs)
+
+------------solve it
+const friends = [{ name: "Anna", books: ["Bible", "Harry Potter"] },
+				 { name: "Bob", books: ["War and peace", "Romeo and Juliet"] },
+				 { name: "Alice", books: ["The Lord of the Rings", "The Shining"] }];
+
+output:	["Bible", "Harry Potter","War and peace", "Romeo and Juliet","The Lord of the Rings", "The Shining"]
+
+const friends = [  { name: "Anna", books: ["Bible", "Harry Potter"] },  { name: "Bob", books: ["War and peace", "Romeo and Juliet"] },  { name: "Alice", books: ["The Lord of the Rings", "The Shining"] }];
+let getBooks = friends.reduce((allBooks, currentVal) =>[...allBooks, ...currentVal.books], []);
+console.log(getBooks);
+
+-->How do you return object of books from above
+const friends = [  { name: "Anna", books: ["Bible", "Harry Potter"] },
+                 { name: "Bob", books: ["War and peace", "Romeo and Juliet"] },
+                 { name: "Alice", books: ["The Lord of the Rings", "The Shining"] }];
+let getBooks = friends.reduce((allBooks, currentVal) =>{
+    return [...allBooks, ...currentVal.books]    
+},[]);
+console.log(({"books":getBooks}));
+
+----> More sophisticated and readable approach
+const friends = [  { name: "Anna", books: ["Bible", "Harry Potter"] },
+                 { name: "Bob", books: ["War and peace", "Romeo and Juliet"] },
+                 { name: "Alice", books: ["The Lord of the Rings", "The Shining"] }];
+let getBooks = friends.flatMap(book =>book.books);
+console.log({"books":getBooks});
+
+---> you can also try like
+let books = friends.reduce((accum,currVal) => //[...accum, ...currVal.books]
+    {
+        return accum.concat(currVal.books)
+    }    
+,[])
+
+=====================================
+---Concatenating uneven arrays
+let data = [
+  ["The","red", "horse"],
+  ["Plane","over","the","ocean"],
+  ["Chocolate","ice","cream","is","awesome"], 
+  ["this","is","a","long","sentence"]
+]
+let dataConcat = data.map(item=>item.reduce((a,i)=>`${a} ${i}`))
+
+// Result
+['The red horse', 
+'Plane over the ocean', 
+'Chocolate ice cream is awesome', 
+'this is a long sentence']
+
+
+---React
+1.let and const dont support hoisting, only var supports it.
+2.
+
+
+
+========
+const obj3 = {name: "sports car", model: 'xps', price: 100};
+
+function user(prop){
+
+return obj3[prop]
+}
+
+user(name)
+
+
+==== 
+remove property without mutating the object
+const obj3 = {name: "sports car", model: 'xps', price: 100};
+
+function user(prop){
+const {[prop]:removedProperty,...rest} = obj3
+return rest
+}
+// console.log(model)
+console.log(removedProperty)
+
+=====> return keys of object 
+const obj3 = {name: "sports car", model: 'xps', price: 100};
+
+console.log(Object.keys(obj3)) //returns an array of keys
+console.log(Object.values(obj3))
+
+----> FreeCodecamp Quites Api
+
+https://type.fit/api/quotes
+https://quotes.rest/quote/random
+
+---- Reduce realtime usecases
+
+1.perform same like groupby with all the fields with count operation.
+
+const fruits = [ 'Banana', 'Orange', 'Apple', 'Orange','Banana', 'Pear']
+let allCounts=fruits.reduce((accumFruit,fruit)=>{
+    return {...accumFruit,[fruit]:( accumFruit[fruit] || 0 ) + 1 }
+},{})
+console.log(allCounts)
+
+2.
+
+<-------------------------------->
+
+Project Idea :
+1.why shouldn't a MF app build in ReactJs, like migration from MF to React front end.
+2.Build OIPA product.( copy the idea from the GL Etl see the resume )
+mocha
+<-------------------------------->
+
+1.stashing conflicts in local and staging
+get latest changes before pushing
+		
+		
+---> Interview Questions on Node.js
+1.what is event loop, why chrome uses v8 engine,callback hell,what are javascript generators,
+difference between nestjs and express, streaming in nodejs,what do you understand about event emitters,
+difference between event emitters and publish and subscribe design pattern,
+what kind of database are you familiar with nodejs,difference between mongodb and postgres,
+do you have any experience with websockets,what the difference between that one application thatuse websockets and rest api.
+,how do you describe graphql,
+how do you keep upto date with nodejs
